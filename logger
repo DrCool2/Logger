@@ -1,0 +1,20 @@
+#!/bin/bash
+
+HOME=~/projects/logger/
+dateTime=$(date +%m-%d-%Y"|"%r)
+crontabBACKUP=${HOME}"BACKUPS/BACKUP-crontab"
+LOG=${HOME}log.txt
+LOG_ENTRY=$HOSTNAME"|"$0"|"$dateTime"|"
+
+crontab -l >> $crontabBACKUP
+
+END=$(date +%m-%d-%Y"|"%r)
+if [ -f $LOG ] ; then
+echo $LOG_ENTRY"|"$END >> $LOG
+else
+echo "HOSTNAME|PROGRAM|BEGIN_DATE|BEGIN_TIME|END_DATE|END_TIME" > $LOG
+
+echo $LOG_ENTRY"|"$END >> $LOG
+fi
+
+column $LOG -t -s "|"
