@@ -1,19 +1,27 @@
 #!/bin/bash
 
-HOME=~/projects/logger/
+HOME=/home/user1/projects/Logger/
 dateTime=$(date +%m-%d-%Y"|"%r)
 crontabBACKUP=${HOME}"BACKUPS/BACKUP-crontab"
 LOG=${HOME}log.txt
 LOG_ENTRY=$HOSTNAME"|"$0"|"$dateTime"|"
 
+cd $HOME
+
+if [ -e $HOME"BACKUPS" ] ; then
+echo ""
+else
+mkdir ./BACKUPS
+fi
+
 crontab -l >> $crontabBACKUP
 
 END=$(date +%m-%d-%Y"|"%r)
+
 if [ -f $LOG ] ; then
 echo $LOG_ENTRY"|"$END >> $LOG
 else
 echo "HOSTNAME|PROGRAM|BEGIN_DATE|BEGIN_TIME|END_DATE|END_TIME" > $LOG
-
 echo $LOG_ENTRY"|"$END >> $LOG
 fi
 
